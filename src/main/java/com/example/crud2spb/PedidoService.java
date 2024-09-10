@@ -51,4 +51,20 @@ public class PedidoService {
 )).collect(Collectors.toList());
 
     }
+    public boolean finalizarPedido(Long idPedido) {
+        String queryStr = "UPDATE pedidos pe " +
+                          "SET pe.fin = now(), " +
+                          "    me.estado_mesa = 'finalizado' " +
+                          "FROM mesa me " +
+                          "WHERE pe.mesa_id = me.id_mesa " +
+                          "AND pe.id_pedido = :idPedido " +
+                          "AND me.estado_mesa = 'pedido tomado' " +
+                          "AND pe.fin IS NULL";
+
+        Query query = entityManager.createNativeQuery(queryStr);
+        query.setParameter("idPedido", idPedido);
+
+        int updatedRows = query.executeUpdate();
+        return updatedRows > 0;  // Si se actualizaron filas, devolvemos true
+    }
 }
