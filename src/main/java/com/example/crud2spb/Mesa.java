@@ -13,7 +13,7 @@ public class Mesa {
     private String name_mesa;
     private String estado_mesa;
 
-    // Getters y Setters
+    
      // Getters
      public Long getId_mesa() {
         return id_mesa;
